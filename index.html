@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Active Coarse-to-Fine Segmentation of Moveable Parts from Real Image</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap-4.4.1.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,800italic,400,700,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/project.css" media="screen" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/iconize.css" />
+    <script src="js/google-code-prettify/prettify.js"></script> -->
+  </head>
+
+  <!-- cover -->
+  <section>
+    <div class="jumbotron text-center mt-0">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h2>Active Coarse-to-Fine Segmentation of Moveable Parts from Real Image
+            </h2>
+            <h4 style="color:#5a6268;">Arxiv 2023 </h4>
+            <hr>
+            <h6>
+                <a href="https://suikei-wang.github.io/" target="_blank">Ruiqi Wang</a><sup>1</sup>,
+                <a href="https://agp-ka32.github.io/" target="_blank">Akshay Gadi Patil</a><sup>1</sup>,
+                <a href="https://fenggenyu.github.io/index.html" target="_blank">Fenggen Yu</a><sup>1</sup>,
+                <a href="https://www.cs.sfu.ca/~haoz/index.html" target="_blank">Hao Zhang</a><sup>1</sup>,
+            <p>
+                <sup>1</sup>Simon Fraser University
+            </p>
+
+            <div class="row justify-content-center">
+              <div class="column">
+                  <p class="mb-5"><a class="btn btn-large btn-light" href="https://arxiv.org/abs/2303.11530" role="button"  target="_blank">
+                    <i class="fa fa-file"></i> Paper</a> </p>
+              </div>
+              <div class="column">
+                  <p class="mb-5"><a class="btn btn-large btn-light" href="" role="button"  target="_blank">
+                    <i class="fa fa-github-alt"></i> Code (To be released) </a> </p>
+              </div>
+              <div class="column">
+                  <p class="mb-5"><a class="btn btn-large btn-light" href="" role="button"  target="_blank">
+                    <i class="fa fa-database"></i> Dataset (To be released) </a> </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- abstract -->
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h3>Abstract</h3>
+            <hr style="margin-top:0px">
+            <h6 style="color:#8899a5"> Our method predicts high-quality instance segmentation of moveable parts, with semantic labels, on photos of real-world scenes. Left shows comparison with OPDFormer, the current state of the art, where the small red <span style="color:red;">×</span>s indicate erroneous or missed labels. As an application of accurate moveable part segmentations (lamps on top right), we can manipulate 3D reconstructions of articulated objects (lamps on bottom right). </h6>
+
+              <img src="img/teaser.png" alt="Description of the image" width="95%">
+
+			        <br>
+
+          <p class="text-left">
+            We introduce the first  <em>active learning</em> (AL) framework for high-accuracy instance segmentation of moveable parts from RGB images of <em>real indoor scenes</em>. As with most human-in-the-loop approaches, the key criterion for success in AL is to minimize human effort while still attaining high performance. To this end, we employ a transformer that utilizes a masked-attention mechanism to supervise the active segmentation. To enhance the network tailored to moveable parts, we introduce a <em> coarse-to-fine</em> AL approach which first uses an <em>object-aware</em> masked attention and then a <em>pose-aware</em> one, leveraging the hierarchical nature of the problem and a correlation between moveable parts and object poses and interaction directions. Our method achieves close to fully accurate (<b>96%</b> and higher) segmentation results, with semantic labels, on real images, with <b>82%</b> time saving over manual effort, where the training data consists of only <b>11.45%</b> annotated real photographs. At last, we contribute a dataset of 2,550 real photographs with annotated moveable parts, demonstrating its superior quality and diversity over the current best alternatives.
+          </p>
+	  <!-- <iframe width="960" height="540" src="https://www.youtube.com/embed/4MDAiFWdXRw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <br>
+    <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h2>Pose-aware masked attention network</h2>
+            <hr style="margin-top:0px">
+          <img src="img/network.png" alt="Description of the image" width="95%">
+
+          <p class="text-center">
+            Overview of our pose-aware masked attention network for moveable part segmentation of articulated objects in real scene images. 
+          </p>
+          <p align="justify">
+          Utilizing a two-stage framework, we first derive a coarse segmentation by predicting the object mask, its 6 DoF pose, and the interaction direction, subsequently isolating the interaction surface of the objects. 
+
+          In the fine segmentation stage, we combine the object mask and interaction surface to form a refined mask, enabling the extraction of fine-grained instance segmentation of moveable parts.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+
+    <br>
+    <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h2>Coarse-to-fine active learning strategy</h2>
+            <hr style="margin-top:0px">
+          <img src="img/al.png" alt="Description of the image" width="95%">
+
+          <p class="text-center">
+            Our coarse-to-fine Active Learning (AL) training pipeline. 
+          </p>
+          <p align="justify">
+            The coarse AL applys on interaction directions and retains high-quality predictions while manually rectifying the rest. These rectified predictions form a constructive prior for refined mask prediction. Subsequently, the fine AL stage utilizes these refined masks, employing an iterative training method with continuous human intervention for accurate part mask annotation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+
+
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h2>Proposed dataset</h2>
+            <hr style="margin-top:0px">
+          <img src="img/dataset.png" alt="Description of the image" width="95%">
+
+          <p class="text-center">
+            Our scalable AL model allows us to accurately annotate a dataset of 2,550 real photos of articulated objects in indoor scenes.
+          </p>
+          <p align="justify">
+            We consider 6 object categories -- Storage, Fridge, Dishwasher, Microwave, Oven and Washer. We organize our dataset according to the primary object depicted in each image. Our dataset includes 333 different articulated objects and 1,161 distinct parts in total, offering a more uniform data distribution across all 6 categories.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+  
+
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h2>Results on OPDReal and OPDMulti dataset</h2>
+            <hr style="margin-top:0px">
+          <img src="img/opd.png" alt="Description of the image" width="85%">
+
+          <p class="text-center">
+            Qualitative results on OPDReal and OPDMulti test set.
+          </p>
+          <p align="justify">
+            Our method without AL outperforms others on noisy GT (row 1), multiple parts missed in the GT (row 2 & 3) and multiple objects (row 4).
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+
+
+  
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h2>Results on our dataset</h2>
+            <hr style="margin-top:0px">
+            </video>
+            <img src="img/ours.png" alt="Description of the image" width="95%">
+
+          <p class="text-center">
+            Qualitative results on <em>test set</em> from our dataset.
+          </p>
+          <p align="justify">
+             Our method outputs better segmentation masks over moveable parts across multiple objects in the image with clear separation of parts and small parts segmentation (row 1 & 3). Our results also show that the <em>coarse-to-fine</em> segmentation framework can effectively reduce segmentation errors from object side surfaces (row 2 & 5).
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+
+
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h2>Generalization on non-openable parts</h2>
+            <hr style="margin-top:0px">
+
+
+          <img src="img/lamp-bottle.png" alt="Description of the image" width="75%">
+
+          <p class="text-center">
+            Generalization of our method on non-openable parts. 
+          </p>
+          <p align="justify">
+            Our model can also generalize on non-openable parts of articulated objects such as lamp and bottle, with a few labeled data (train on 65 images, and inference on 409 images). Results are randomly sampled from the inference.
+          </p>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h2>Application on object manipulation</h2>
+            <hr style="margin-top:0px">
+
+
+          <img src="img/app.png" alt="Description of the image" width="75%">
+
+          <p class="text-center">
+            Part-level reconstructioin and manipulation of bottle and dishwasher. 
+          </p>
+          <p align="justify">
+            Our work demonstrate practical applications in part based reconstruction and manipulation of articulated objects from images. Given a set of multi-view RGB images of an articulated object, our model predicts precise segmentation masks of moveable parts in each image. This enables part based 3D reconstruction using masked images for both moveable parts and the main body of the object. The resulting 3D models of parts allow for easy manipulation of moveable parts to unseen states in 3D.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+
+  <!-- citing -->
+  <div class="container">
+    <div class="row ">
+      <div class="col-12">
+          <h3>Citation</h3>
+          <hr style="margin-top:0px">
+              <pre style="background-color: #e9eeef;padding: 1.25em 1.5em">
+<code>@article{wang2023coarse,
+  title={Active Coarse-to-Fine Segmentation of Moveable Parts from Real Images},
+  author={Wang, Ruiqi and Patil, Akshay Gadi and Yu, Fenggen and Zhang, Hao},
+  journal={arXiv preprint arXiv:2303.11530},
+  year={2023}
+}</code>
+              </pre>
+          <hr>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center" style="margin-bottom:10px">
+      Thanks to <a href="https://lioryariv.github.io/" target="_blank">Lior Yariv</a> and <a href="https://liuyuan-pal.github.io/SyncDreamer/" target="_blank">SyncDreamer</a> for the website template.
+  </footer>
+
+</body>
+</html>
